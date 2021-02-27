@@ -4,7 +4,7 @@ https://docs.google.com/presentation/d/1AjS5ztkYBziroO4p7ksxB96LqzXUM1GzE3moJv_I
 G1 Project:
 https://docs.google.com/document/d/1ACh_8P8QcaEu369XLLWs_bhZUFUTcm31hiciUHgIdk0/edit#
 
-Dimensions and Moment of TurtleBot:
+Dimensions and Moment of TurtleBot and Centre of Gravity:
 https://docs.google.com/spreadsheets/d/1WGZWoKUyb3v-STXPvxgg0AHSnqXSKlpuJA4V0ANMDxk/edit#gid=0
 
 TurtleBot Parts(Day 1):
