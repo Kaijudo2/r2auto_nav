@@ -11,37 +11,73 @@ GPIO.setup(33,GPIO.OUT) #DC Motor
 p = GPIO.PWM(33,200) #GPIO13 as PWM output with 200 Hz frequency
 p.start(0)
 
-GPIO.setup(32, GPIO.OUT) #Servo Motor
-s = GPIO.PWM(32,50)
-s.start(7.5)
+#GPIO.setup(32, GPIO.OUT) #Servo Motor
+#s = GPIO.PWM(32,50)
+#s.start(7.5)
 
 GPIO.setup(12,GPIO.OUT) #Solenoid Servo
 ss = GPIO.PWM(12,50)
 ss.start(7.5)
 
-ang = 0 
-ang1 = 0
 
 class Sensor(Node):
 
 	def __init__(self):
 		super().__init__('sensor')
 
+		self.ang = 0
+		self.ang1 = 0
+
 		self.tempPublisher = self.create_publisher(String, 'temperature', 10)
-		self.ang_subscriber = self.create_subscription(String, 'Angu', self.angular_callback, 10)
-		self.ang1_subscriber = self.create_subscription(String, 'Angu1', self.angular1_callback, 10)		
+		self.ang_subscriber = self.create_subscription(String,'Angu', self.angular_callback, 8)
+		self.ang1_subscriber = self.create_subscription(String, 'Angu1', self.angular1_callback, 9)
+		print("I have subscribed")
 
 	def angular_callback(self,msg):
-		global ang
-		ang = ast.literal_eval(msg.data)
+		self.ang = ast.literal_eval(msg.data)
 		#ang = int(msg.data)
-		print(ang)
+		print("data received on ang")
+		print(self.ang)
 
 	def angular1_callback(self,msg):
-		global ang1
-		ang1 = ast.literal_eval(msg.data)
+		self.ang1 = ast.literal_eval(msg.data)
 		#ang1 = int(msg.data)
-		print(ang1)
+		print("data received on ang1")
+		print(self.ang1)
+
+	def readTemp(self):
+		for i in range(10):
+			bytes_read, temperature = omron.read()
+			toPublish = String()
+			toPublish.data = "%s" % temperature #Convert temperature to string
+			self.tempPublisher.publish(toPublish)
+
+	def stayalive(self):
+		while rclpy.ok():
+			while True:
+				print("reading 10 times")
+				self.readTemp()
+				if (self.ang > 0):
+					state = 1
+					#s.ChangeDutyCycle(self.ang)
+				self.ang = 0
+				if (self.ang1 > 0):
+					state = 2
+					#s.ChangeDutyCycle(self.ang1)
+					dcmotor()
+					time.sleep(6)
+					solenoid()
+					time.sleep(3)
+					if state ==2:
+						p.stop()
+						p.start(0)
+#						s.stop()
+#						s.start(7.5)
+						ss.stop()
+						ss.start(7.5)
+				self.ang1 = 0
+				rclpy.spin_once(self, timeout_sec=0.1)
+		print("i have exited")
 
 #D6t Sensor
 import pigpio, time, crcmod.predefined, smbus
@@ -55,9 +91,9 @@ def dcmotor():
 def solenoid():
 	try:
 		n1 = 180
-		ang1 = (n1/180*10) +2.5
-		ss.ChangeDutyCycle(ang1)
-		time.sleep(3)
+		ang2 = (n1/180*10) +2.5
+		ss.ChangeDutyCycle(ang2)
+		time.sleep(2)
 		ss.ChangeDutyCycle(7.5)
 	except KeyboardInterrupt:
 		ss.ChangeDutyCycle(7.5)
@@ -163,20 +199,10 @@ omron = OmronD6T(rasPiChannel=1, omronAddress=0x0a, arraySize=16) #Change arrays
 def main(args=None):
 	rclpy.init(args=args)
 	sensor = Sensor()
-	while True:
-		bytes_read, temperature = omron.read()
-		toPublish = String()
-		toPublish.data = "%s" % temperature #Convert temperature to string
-		sensor.tempPublisher.publish(toPublish)
-		time.sleep(0.1)	
-		if (ang >0): 
-			s.ChangeDutyCycle(ang)			
-		if (ang1>0):
-			s.ChangeDutyCycle(ang1)
-			dcmotor()	
-			time.sleep(3)
-			solenoid()
-			time.sleep(3)
-	
+	#sensor.testcallback()
+	state = 0
+	sensor.stayalive()
+
+
 if __name__ == '__main__':
 	main()
