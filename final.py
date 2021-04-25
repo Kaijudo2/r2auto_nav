@@ -780,137 +780,138 @@ class AutoNav(Node):
                                         self.ang1_publisher.publish(toPublish1)
                                         time.sleep(10)
                         rclpy.spin_once(self)
-                        if max(temperature) >=85:
-                            print('3rd Calibration without moving forward')
-                            print(max(temperature))
-                            if (max(temperature) == temperature_array[0][0]): #Top Left array
-                                print('[0][0]')    
-                                self.rotatebot(18)      #Move by 2 pixel units to the right
-                                n=(90-23)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[0][1]):#More than or equal to 45 degree
-                                print('[0][1]')    
-                                self.rotatebot(-9)      #Move by 1 pixel units to the right
-                                n=(90-23)
-                                ang = (n/180*10) +2.5                     
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[0][2]):
-                                print('[0][2]')    
-                                self.rotatebot(9)
-                                n=(90-23)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif  (max(temperature) == temperature_array[0][3]):
-                                print('[0][3]')    
-                                self.rotatebot(-18)
-                                n=(90-23)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[1][0]):
-                                print('[1][0]')    
-                                self.rotatebot(18)
-                                n=(90-12)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif  (max(temperature) == temperature_array[1][1]):
-                                print('[1][1]')    
-                                self.rotatebot(9)
-                                n=(90-12)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif  (max(temperature) == temperature_array[1][2]):
-                                print('[1][2]')
-                                self.rotatebot(-9)
-                                n=(90-12)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[1][3]):
-                                print('[1][3]')
-                                self.rotatebot(-18)
-                                n=(90-12)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif  (max(temperature) == temperature_array[2][0]):
-                                print('[2][0]')
-                                self.rotatebot(18)
-                                n=(90+12)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[2][1]):
-                                print('[2][1]')
-                                self.rotatebot(9)
-                                n=(90+12)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[2][2]):
-                                print('[2][2]')
-                                self.rotatebot(-9)
-                                n=(90+12)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[2][3]):
-                                print('[2][3]')
-                                self.rotatebot(-18)
-                                n=(90+12)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[3][0]):
-                                print('[3][0]')
-                                self.rotatebot(18)
-                                n=(90+23)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[3][1]):
-                                print('[3][1]')
-                                self.rotatebot(9)
-                                n=(90+23)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[3][2]):
-                                print('[3][2]')
-                                self.rotatebot(3)
-                                n=(90+23)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
-                            elif (max(temperature) == temperature_array[3][3]):
-                                print('[3][3]')
-                                self.rotatebot(-18)
-                                n=(90+23)
-                                ang = (n/180*10) +2.5
-                                toPublish1.data = str(ang)
-                                self.ang1_publisher.publish(toPublish1)
-                                time.sleep(10)
+                        if(len(lri2[0])<0):
+                            if max(temperature) >=85:
+                                print('3rd Calibration without moving forward')
+                                print(max(temperature))
+                                if (max(temperature) == temperature_array[0][0]): #Top Left array
+                                    print('[0][0]')    
+                                    self.rotatebot(18)      #Move by 2 pixel units to the right
+                                    n=(90-23)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[0][1]):#More than or equal to 45 degree
+                                    print('[0][1]')    
+                                    self.rotatebot(-9)      #Move by 1 pixel units to the right
+                                    n=(90-23)
+                                    ang = (n/180*10) +2.5                     
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[0][2]):
+                                    print('[0][2]')    
+                                    self.rotatebot(9)
+                                    n=(90-23)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif  (max(temperature) == temperature_array[0][3]):
+                                    print('[0][3]')    
+                                    self.rotatebot(-18)
+                                    n=(90-23)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[1][0]):
+                                    print('[1][0]')    
+                                    self.rotatebot(18)
+                                    n=(90-12)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif  (max(temperature) == temperature_array[1][1]):
+                                    print('[1][1]')    
+                                    self.rotatebot(9)
+                                    n=(90-12)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif  (max(temperature) == temperature_array[1][2]):
+                                    print('[1][2]')
+                                    self.rotatebot(-9)
+                                    n=(90-12)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[1][3]):
+                                    print('[1][3]')
+                                    self.rotatebot(-18)
+                                    n=(90-12)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif  (max(temperature) == temperature_array[2][0]):
+                                    print('[2][0]')
+                                    self.rotatebot(18)
+                                    n=(90+12)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[2][1]):
+                                    print('[2][1]')
+                                    self.rotatebot(9)
+                                    n=(90+12)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[2][2]):
+                                    print('[2][2]')
+                                    self.rotatebot(-9)
+                                    n=(90+12)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[2][3]):
+                                    print('[2][3]')
+                                    self.rotatebot(-18)
+                                    n=(90+12)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[3][0]):
+                                    print('[3][0]')
+                                    self.rotatebot(18)
+                                    n=(90+23)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[3][1]):
+                                    print('[3][1]')
+                                    self.rotatebot(9)
+                                    n=(90+23)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[3][2]):
+                                    print('[3][2]')
+                                    self.rotatebot(3)
+                                    n=(90+23)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
+                                elif (max(temperature) == temperature_array[3][3]):
+                                    print('[3][3]')
+                                    self.rotatebot(-18)
+                                    n=(90+23)
+                                    ang = (n/180*10) +2.5
+                                    toPublish1.data = str(ang)
+                                    self.ang1_publisher.publish(toPublish1)
+                                    time.sleep(10)
                         # find direction with the largest distance from the Lidar
                         # rotate to that direction
                         # start moving
